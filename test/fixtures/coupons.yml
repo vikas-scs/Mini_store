@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  coupon_name: MyString
+  amount: 1.5
+  percentage: 1.5
+  usage_count: 1
+  expiry_date: 2021-08-16
+
+two:
+  coupon_name: MyString
+  amount: 1.5
+  percentage: 1.5
+  usage_count: 1
+  expiry_date: 2021-08-16
