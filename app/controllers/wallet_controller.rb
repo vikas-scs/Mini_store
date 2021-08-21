@@ -9,6 +9,7 @@ class WalletController < ApplicationController
         end
 	    @success = Deposit.where(user_id: current_user.id, status: "processing")
 	    if !@success.empty?
+            puts "why"
 	  		    flash[:notice] = "You can't deposit money this time.Your previous deposit under process"
                 redirect_to wallets_path
             return	
@@ -30,8 +31,11 @@ class WalletController < ApplicationController
       @deposit.update_count = 0
       @deposit.amount = amount
       if @deposit.save
-      	flash[:notice] = "deposite under process"
+      	flash[:alert] = "deposite under process"
       	redirect_to wallets_path
       end
+    end
+    def transactions
+       @transactions = current_user.transactions
     end
 end

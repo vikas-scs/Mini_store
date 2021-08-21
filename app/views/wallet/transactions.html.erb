@@ -1,0 +1,56 @@
+<br>
+<br>
+<% if @transactions.empty? %>
+    <center><b><h1>No Transactions Yet</h1></b></center>
+<% else %>
+<div class="container">
+   <div class="row">
+            <div class="col featured-item">
+              <center>
+                 <h1>Transactions</h1>  
+                    <table class= "myTable" style="width: 50%">
+                    <tr>
+                       <th>Transaction Id</th>
+                       <th>Date</th>
+                       <th>Description</th>
+                       <th>Transaction_type</th>
+                       <th>Email</th>
+                       <th>Amount</th>
+                    </tr>
+                    <tr>
+                      <% @transactions.each do |tr| %>  
+                         <td><%= tr.ref_id %></td>
+                         <td><%= tr.created_at.strftime("%y/%m/%d") %></td>
+                         <td><%= tr.description %></td>
+                         <td><%= tr.transaction_type %></td>
+                         <td><%= current_user.email %></td> 
+                         <td><%= tr.amount %></td>
+                    </tr>
+                    <% end %>
+                 </table> 
+              </center>
+          </div>
+    </div>
+</div>
+<% end %>
+<style>
+	 <style>
+.myTable { 
+  width: 100%;
+  text-align: left;
+  background-color: white;
+  border-collapse: collapse; 
+  }
+.myTable th { 
+  background-color: lightgreen;
+  color: salmon; 
+  }
+.myTable td, 
+.myTable th { 
+  padding: 10px;
+  border: 1px solid black; 
+  }
+  tr:nth-child(even) {background-color: #F0ffff;}
+
+
+</style>

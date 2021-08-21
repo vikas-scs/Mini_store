@@ -4,7 +4,7 @@ class OrderController < ApplicationController
     end
 	def address
 		puts params.inspect                             #getting the cuurent user address that addeda before 
-		@address = current_user.addresses.first
+		@address = current_user.addresses.last
 		@total = params[:total]
 	end
 	def order_detail
@@ -16,10 +16,10 @@ class OrderController < ApplicationController
 		puts params.inspect
 		if params[:same_address].present?               #continuing the previous address as current order address
 			puts "allow here"
-			@address = current_user.addresses.first
+			@address = current_user.addresses.last
 			@total = params[:total]
 	    else                                            #adding new address to user address
-            if params[:d_no] == "" || params[:street] == "" || params[:village] = "" || params[:state] = "" || params[:pincode] = ""       #displaying message if any field is empty
+            if params[:d_no].empty? || params[:street].empty? || params[:village].empty? || params[:state].empty? || params[:pincode].empty?      #displaying message if any field is empty
                  flash[:notice] = "fields can't be empty"
                  redirect_to address_path(total: params[:total])
                  return
@@ -28,8 +28,11 @@ class OrderController < ApplicationController
 	    	@address.user_id = current_user.id
             @address.d_no = params[:d_no]
 			@address.street = params[:street]
+            puts params[:village]
 			@address.village = params[:village]
+            puts params[:state]
 			@address.state = params[:state]
+            puts params[:pincode]
 			@address.pincode = params[:pincode]
 			@total = params[:total]
 			@address.save
@@ -109,7 +112,6 @@ class OrderController < ApplicationController
             end
         end
         @transaction1 = Transaction.new                    #creating the transaction for user debit
-		@transaction1.user_id = current_user.id
 		@transaction1.admin_id = 1
 		@transaction1.transaction_type = "credit"
 		@transaction1.description = "selling products"
@@ -126,7 +128,7 @@ class OrderController < ApplicationController
             end
         end
         if @cart.destroy_all                             #remoing the items from the cart after adding to order table
-        	flash[:notice] = "Order palced Successfully!!!!"
+        	flash[:alert] = "Order palced Successfully!!!!"
 			redirect_to order_path
 			return
 		end
@@ -148,7 +150,7 @@ class OrderController < ApplicationController
                         @cu.user_id = current_user.id
                         @cu.coupon_id = @cupon.id
                         if @cu.save
-                           flash[:notice] = "Coupon Applied Successfully!!!"
+                           flash[:alert] = "Coupon Applied Successfully!!!"
 			               redirect_to place_order_path(coupon_id: @cupon.id,total: @offer, amount: @total)
 			               return
 			            end
@@ -158,7 +160,7 @@ class OrderController < ApplicationController
                         @cu.user_id = current_user.id
                         @cu.coupon_id = @cupon.id
 			        	if @cu.save
-                           flash[:notice] = "Coupon Applied Successfully!!!"
+                           flash[:alert] = "Coupon Applied Successfully!!!"
 			               redirect_to place_order_path(coupon_id: @cupon.id,total: @offer,amount: @total)
 			               return
 			            end
@@ -169,7 +171,7 @@ class OrderController < ApplicationController
                             @cu.user_id = current_user.id
                             @cu.coupon_id = @cupon.id
 			         	    if @cu.save
-                                flash[:notice] = "Coupon Applied Successfully!!!"
+                                flash[:alert] = "Coupon Applied Successfully!!!"
 			                    redirect_to place_order_path(coupon_id: @cupon.id,total: @offer,amount: @total)
 			                    return
 			                end
@@ -179,7 +181,7 @@ class OrderController < ApplicationController
                             @cu.user_id = current_user.id
                             @cu.coupon_id = @cupon.id
                             if @cu.save
-                                flash[:notice] = "Coupon Applied Successfully!!!"
+                                flash[:alert] = "Coupon Applied Successfully!!!"
 			                    redirect_to place_order_path(coupon_id: @cupon.id,total: @offer,amount: @total)
 			                    return
 			                end

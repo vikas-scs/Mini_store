@@ -3,22 +3,12 @@ class CartController < ApplicationController
        @orders = Order.where(user_id: current_user.id)
        puts @orders               #getting the current user orders list
        @ops = OrdersProduct.where(user_id: current_user.id)
-       if @orders.empty?                                             #if no orders are avialable display the message
-			flash[:notice] = "No Orders Yet!!!"
-			redirect_to root_path
-			return
-		end
 	end
 	def index
 		puts "hello"       
 		@wallet = current_user.user_wallet
 		@carts = Cart.where(user_id: current_user.id)
 		       #getting the cart items available in current user
-		if @carts.empty?
-			flash[:notice] = "No items in Cart!!!"                  #if no items are available, display the message 
-			redirect_to root_path
-			return
-		end
 		@cps = CartsProduct.where(user_id: current_user.id) 
 		puts @cps                                          #getting the cart products in array	
 	end
@@ -58,14 +48,14 @@ class CartController < ApplicationController
 			@cp.cart_id = @cart.id
 			@cp.user_id = current_user.id
 			@cp.save
-			flash[:notice] = "Added to Cart successfully!!!"
+			flash[:alert] = "Added to Cart successfully!!!"
 			redirect_to cart_path
 		end
 	end
 	def remove_product
 		@cart = Cart.where(user_id: current_user.id, product_id: params[:id]).first       #removing the desired product from the cart
         if @cart.destroy
-        	flash[:notice] = "Product removed from Cart!!!"
+        	flash[:alert] = "Product removed from Cart!!!"
 			redirect_to cart_path
 			return
 		end
@@ -89,7 +79,7 @@ class CartController < ApplicationController
 		@product.cart_count = params[:quantity]
 		@cp.save
 		if @product.save                                    #changing the product quantity from the cart
-			flash[:notice] = "Quantity changed for #{@product.name}!!!"
+			flash[:alert] = "Quantity changed for #{@product.name}!!!"
 			redirect_to cart_path
 			return
 		end

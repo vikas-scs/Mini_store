@@ -23,5 +23,6 @@ Rails.application.routes.draw do
   get "order/confirm", to:"order#confirm", as: :confirm
   get "order/order_detail", to:"order#order_detail", as: :order_detail
   get "order/my_deposits", to:"order#my_deposits", as: :deposit
+  get 'wallet/transactions/:id', to: 'wallet#transactions', as: :transaction
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
