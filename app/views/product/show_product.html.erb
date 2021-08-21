@@ -48,12 +48,17 @@
                   <%= image_tag(url_for(@product.image), :size => '500x350') %><br>
                   
                   <br><h4><b><%= @product.name%></b></h4>
-                  <h6><b><%= @product.price %></b></h6>
-                  <h7><b><%= @product.features %></b></h7><br><br>
+                  <h7><b><%= @product.features %></b></h7>
+                  <% if @product.available_count <= 0 %>
+                       <h6>Out Of Stock</h6>
+                  <% else %>
+                       <h6>$:<%= @product.price %></h6>
+                  <br><br>
                   <%= form_tag(add_cart_path, :method => "get") do %>
                   Quantity:<%= number_field_tag "quantity", 1 %>
                    <%= hidden_field_tag "id", @product.id %>
                   <%= submit_tag "Add To Cart",class: "btn btn-danger" %>
+                  <% end %>
                   <% end %>
                   </center>
             </div>

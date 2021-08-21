@@ -10,4 +10,6 @@ class User < ApplicationRecord
   has_many :orders
   has_many :transactions
   has_and_belongs_to_many :coupons
+  validates :name, presence: :true, format: { with: /\A[a-zA-Z]+\z/}, uniqueness: true
+   validates :mobile, format: { with: /\A[6-9]{1}\d{9}\z/ }, uniqueness: true, presence: :true
 end

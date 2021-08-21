@@ -10,77 +10,60 @@
               <%= link_to " Home ", root_path %>
             </form>
             <li class="nav-item active">
-              <a class="nav-link" href="/product/products">Products
+              <a class="nav-link" href="/cart/order">Orders
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <% if user_signed_in? %>
             <li class="nav-item">
-              <a class="nav-link" href="/cart/index">Cart</a>
+              <a class="nav-link" href="/product/products">Products</a>
             </li>
-            <% end %>
             <li class="nav-item">
               <% if user_signed_in? %>
-              <form class="form-inline nav-item nav-link mr-sm-2">
-                 &nbsp<%= link_to "Deposite", wallets_path(id: current_user.id) %>&nbsp
-                 &nbsp balance:<%= current_user.user_wallet.balance %> &nbsp
-                 &nbsp <%= link_to " logout", destroy_user_session_path, method: :delete %> &nbsp
-             </form>
-            <% else %>
-             <form class="form-inline">
-               <a class="nav-item nav-link mr-sm-2" href="/admins/sign_in">Admin Login</a>
-               <a class="nav-item nav-link mr-sm-2" href="/users/sign_in">User Login</a>
-              <a class="nav-item nav-link mr-sm-2" href="/users/sign_up">Register</a>
-            </form>
-          <% end %>
+                 <form class="form-inline nav-item nav-link mr-sm-2">
+                     &nbsp<%= link_to "Deposite", wallets_path(id: current_user.id) %>&nbsp
+                     &nbsp balance:<%= current_user.user_wallet.balance %> &nbsp
+                     &nbsp <%= link_to " logout", destroy_user_session_path, method: :delete %> &nbsp
+                 </form>
+              <% else %>
+                  <form class="form-inline">
+                    <a class="nav-item nav-link mr-sm-2" href="/admins/sign_in">Admin Login</a>
+                    <a class="nav-item nav-link mr-sm-2" href="/users/sign_in">User Login</a>
+                    <a class="nav-item nav-link mr-sm-2" href="/users/sign_up">Register</a>
+                  </form>
+              <% end %>
           </ul>
         </div>
       </div>
-</nav>
-<div class="banner">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="caption">
+    </nav>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+   <div class="row">
+            <div class="col featured-item">
               <center>
-                 <h4>Search Product</h4><br>
-                 <%= form_tag(search_product_path, :method => "get") do %>
-                   Name:<%= text_field_tag "name", params[:name], id: 'name' %>
-                  <button id="search" onclick="send()" class = "btn btn-success"><% submit_tag("search") %>search</button>
-                 <% end %>
+                 <h1>Deposits Details</h1>  
+                    <table class= "myTable" style="width: 50%">
+                    <tr>
+                       <th>Deposit Id</th>
+                       <th>Date</th>
+                       <th>Total amount</th>
+                       <th>Status</th>
+                    </tr>
+                    <% @deposits.each do |deposit| %>
+                    <tr>
+                         <td><%= deposit.ref_id %></td>
+                         <td><%= deposit.created_at.strftime("%y-%m-%d") %></td>
+                         <td><%= deposit.amount %></td>
+                         <td><%= deposit.status %></td>
+                    </tr>
+                    <% end %>
+                 </table> 
               </center>
-            </div>
           </div>
-        </div>
-      </div>
-</div>
-<div class="featured-page">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4 col-sm-12">
-            <div class="section-heading">
-              <div class="line-dec"></div>
-              <h1>Search result</h1>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-
-   <div class="container">
-          <div class="row">
-            <% @products.each do |product| %>
-            <div class="col-md-4 featured-item">
-                  <%= image_tag(url_for(product.image), :size => '260x150') %>
-                  <center>
-                  <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
-                  <h6>$:<%= product.price %></h6>
-                  </center>
-            </div>
-            <% end %>
-          </div>
-   </div>
-   <div class="sub-footer">
+</div>
+<div class="sub-footer">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -93,34 +76,26 @@
         </div>
       </div>
     </div>
-<script>
-  const show_btn = document.querySelector('#search');
-  var wage = document.getElementById("name");
-  var i = 0
-   hideBtn([show_btn]);
-   wage.onkeyup = function(e){
-    console.log(wage.value.length);
-     e = e || window.event;
-     if(wage.value.length > 2) {
-        console.log("pyte")
-        showBtn([show_btn])
-      }
-      if(wage.value.length <= 2){
-        hideBtn([show_btn]);
-      }
-
-}
-function showBtn(btnArr) {
-  btnArr.forEach((btn) => (btn.style.display = 'inline-block'));
-}
-function hideBtn(btnArr) {
-  btnArr.forEach((btn) => (btn.style.display = 'none'));
-}
-</script>
 
 
 
-    <style>
+  <style>
+.myTable { 
+  width: 100%;
+  text-align: left;
+  background-color: white;
+  border-collapse: collapse; 
+  }
+.myTable th { 
+  background-color: lightgreen;
+  color: salmon; 
+  }
+.myTable td, 
+.myTable th { 
+  padding: 10px;
+  border: 1px solid black; 
+  }
+  tr:nth-child(even) {background-color: #F0ffff;}
 
 body {
   font-family: 'Roboto', sans-serif;

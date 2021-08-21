@@ -55,6 +55,7 @@
                     <%= c.coupon_name %> &nbsp&nbsp
                 <% end %><br>
                 <%= form_tag(coupon_path, :method => "get") do %>
+                    <%= hidden_field_tag "same_address", "yes"%>
                     <%= hidden_field_tag "total",@total %>
                      Coupon:  <%= text_field_tag "c_name"%>
                      <%= submit_tag "Apply",class: "btn btn-danger" %>

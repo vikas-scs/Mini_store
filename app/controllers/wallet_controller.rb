@@ -4,7 +4,7 @@ class WalletController < ApplicationController
 	end
 	def new
         @wallet = current_user.user_wallet
-        if params[:due].present?
+        if params[:due].present?               #checking whether request coming to login page
         	@due = params[:due]
         end
 	    @success = Deposit.where(user_id: current_user.id, status: "processing")
@@ -22,7 +22,7 @@ class WalletController < ApplicationController
           redirect_to wallets_path
           return
       end
-      @deposit = Deposit.new
+      @deposit = Deposit.new                                    #generating the request for adding the money to user wallet
       @deposit.ref_id = "dep" + rand(7 ** 7).to_s
       @deposit.user_id = current_user.id
       @deposit.admin_id = 1

@@ -10,7 +10,7 @@
               <%= link_to " Home ", root_path %>
             </form>
             <li class="nav-item active">
-              <a class="nav-link" href="/product/search">Search
+              <a class="nav-link" href="/cart/order">Orders
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -19,18 +19,18 @@
             </li>
             <li class="nav-item">
               <% if user_signed_in? %>
-              <form class="form-inline nav-item nav-link mr-sm-2">
-                 &nbsp<%= link_to "Deposite", wallets_path(id: current_user.id) %>&nbsp
-                 &nbsp balance:<%= @wallet.balance %> &nbsp
-                 &nbsp <%= link_to " logout", destroy_user_session_path, method: :delete %> &nbsp
-             </form>
-            <% else %>
-             <form class="form-inline">
-               <a class="nav-item nav-link mr-sm-2" href="/admins/sign_in">Admin Login</a>
-               <a class="nav-item nav-link mr-sm-2" href="/users/sign_in">User Login</a>
-              <a class="nav-item nav-link mr-sm-2" href="/users/sign_up">Register</a>
-            </form>
-          <% end %>
+                 <form class="form-inline nav-item nav-link mr-sm-2">
+                     &nbsp<%= link_to "Deposite", wallets_path(id: current_user.id) %>&nbsp
+                     &nbsp balance:<%= @wallet.balance %> &nbsp
+                     &nbsp <%= link_to " logout", destroy_user_session_path, method: :delete %> &nbsp
+                 </form>
+              <% else %>
+                  <form class="form-inline">
+                    <a class="nav-item nav-link mr-sm-2" href="/admins/sign_in">Admin Login</a>
+                    <a class="nav-item nav-link mr-sm-2" href="/users/sign_in">User Login</a>
+                    <a class="nav-item nav-link mr-sm-2" href="/users/sign_up">Register</a>
+                  </form>
+              <% end %>
           </ul>
         </div>
       </div>
@@ -47,11 +47,12 @@
         </div>
       </div>
     </div>
-     <% @total = 0 %>
+    <% @total = 0 %>
    <div class="container">
           <div class="row">  
-            <% @items.each do |product| %>
-            <div class="col-md-4 featured-item">
+            <% @carts.each do |cart| %>
+               <% cart.products.each do |product| %>
+               <div class="col-md-4 featured-item">
                   <%= image_tag(url_for(product.image), :size => '200x100') %>
                   <center>
                   <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
@@ -59,27 +60,30 @@
                   </center>
                   <p>Quntity:</p>
                   <%= form_tag(quantity_path, :method => "get") do %>
-                  <%= number_field_tag "quantity", product.cart_count %>
-                   <%= hidden_field_tag "id", product.id %>
-                  <%= submit_tag "change",class: "btn btn-success" %><br>
-                  <%= link_to "remove", remove_product_path(id: product.id) %>
-                  <% @total = @total + (product.price * product.cart_count) %>
+                      <% @cps.each do |cp| %>
+                        <% if cp.product_id ==  product.id %>
+                           <%= number_field_tag "quantity", cp.quantity %>
+                        <% end %>
+                      <% end %>
+                       <%= hidden_field_tag "id", product.id %>
+                       <%= submit_tag "change",class: "btn btn-success" %><br>
+                       <%= link_to "remove", remove_product_path(id: product.id) %>
+                       <% @total = @total + (product.price * product.cart_count) %>
                   <% end %>
-            </div>
-            <% end %>
-          </div>
+                  <% end %>
+              </div>
+           <% end %>
+         </div>
   </div>
   <div class="container">
     <center>
-     Total Amount: <b><%= @total %></b>
-     <%= form_tag(address_path, :method => "get") do %>
-     <%= hidden_field_tag "total", @total %>
-     <%= submit_tag "Place Order",class: "btn btn-danger" %><br>
-     <% end %>
+        Total Amount: <b><%= @total %></b>
+        <%= form_tag(address_path, :method => "get") do %>
+           <%= hidden_field_tag "total", @total %>
+           <%= submit_tag "Place Order",class: "btn btn-danger" %><br>
+        <% end %>
      </center>
   </div>
-
-
 
 <div class="sub-footer">
       <div class="container">
@@ -93,7 +97,7 @@
           </div>
         </div>
       </div>
-    </div>
+</div>
 
 <style>
     body {

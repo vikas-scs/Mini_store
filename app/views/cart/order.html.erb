@@ -58,6 +58,11 @@
                   <center>
                   <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
                   <h6><%= product.price %></h6>
+                  <% @ops.each do |op| %>
+                        <% if op.product_id ==  product.id && op.order_id == order.id %>
+                           Quantity:<b><%= op.quantity %></b>
+                        <% end %>
+                      <% end %>
                   </center>
                </div>
             <% end %>
@@ -70,9 +75,10 @@
                 <%= hidden_field_tag "order_id",order.id %>
                 <%= submit_tag "Order Details",class: "btn btn-danger" %>
             <% end %>
-            </center> 
- </div>
- <% end %>
+         </center> 
+      </div>
+   <% end %>
+</div>
 
 <div class="sub-footer">
       <div class="container">

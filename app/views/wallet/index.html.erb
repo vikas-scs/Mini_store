@@ -18,7 +18,7 @@
             <li class="nav-item">
               <% if user_signed_in? %>
               <form class="form-inline nav-item nav-link mr-sm-2">
-                 &nbsp balance:<%= @wallet.balance %> &nbsp
+                 &nbsp<%= link_to "My Deposits", deposit_path %>&nbsp
                  &nbsp <%= link_to " Edit profile", edit_user_registration_path %>&nbsp
                  &nbsp <%= link_to " logout", destroy_user_session_path, method: :delete %> &nbsp
              </form>
@@ -61,35 +61,7 @@
    
     
     <!-- Footer Starts Here -->
-    <div class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-          </div>
-          <div class="col-md-12">
-            <div class="footer-menu">
-              <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">How It Works ?</a></li>
-                <li><a href="#">Contact Us</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="social-icons">
-              <ul>
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#"><i class="fa fa-rss"></i></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <!-- Footer Ends Here -->
 
 

@@ -23,7 +23,7 @@
               <% if user_signed_in? %>
               <form class="form-inline nav-item nav-link mr-sm-2">
                  &nbsp<%= link_to "Deposite", wallets_path(id: current_user.id) %>&nbsp
-                 &nbsp balance:<%= @wallet.balance %> &nbsp
+                 &nbsp balance:<%= current_user.user_wallet.balance %> &nbsp
                  &nbsp <%= link_to " logout", destroy_user_session_path, method: :delete %> &nbsp
              </form>
             <% else %>
@@ -57,7 +57,12 @@
                   <%= image_tag(url_for(product.image), :size => '260x150') %>
                   <center>
                   <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
-                  <h6>$:<%= product.price %></h6>
+                  <h5><%= product.product_type %></h5>
+                  <% if product.available_count <= 0 %>
+                       <h6>Out Of Stock</h6>
+                  <% else %>
+                       <h6>$:<%= product.price %></h6>
+                  <% end %>
                   </center>
             </div>
             <% end %>
@@ -77,42 +82,17 @@
         </div>
       </div>
     </div>
-    <style>
-body {
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.5s;
-}
-p {
-  margin-bottom: 0px;
-  font-size: 14px;
-  color: #4a4a4a;
-  line-height: 24px;
-}
-a {
-  text-decoration: none!important;
-}
+<style>
 .featured-item{
   border: 1px solid #eee;
-      padding: 20px;
-}
+  padding: 20px;
 
+}
 .copyright-text {
   text-transform: uppercase;
 }
 
-.main-button a {
-  background-color: #3a8bcd;
-  border-radius: 5px;
-  padding: 10px 15px;
-  display: inline-block;
-  color: #fff;
-  font-size: 14px;
-  text-transform: uppercase;
-  font-weight: 300;
-  letter-spacing: 0.4px;
-  text-decoration: none;
-  transition: all 0.5s;
-}
+
 .main-button a:hover {
   opacity: 0.7;
 }
@@ -125,24 +105,8 @@ a {
   height: 5px;
   background-color: #3a8bcd;
 }
-.section-heading h1 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1e1e1e;
-  margin-top: 15px;
-}
 
 /* Pre Header Style */
-#pre-header {
-  background-color: #3a8bcd;
-  text-align: center;
-}
-#pre-header span {
-  color: #fff;
-  font-size: 15px;
-  padding: 10px 0px;
-  display: inline-block;
-}
 
 /* Header Style */
 .navbar .navbar-brand {
@@ -213,83 +177,6 @@ a {
   padding: 150px 0px;
   background-position: center center;
 }
-.banner .caption {
-  background-color: rgba(250,250,250,0.9);
-  padding: 30px;
-  max-width: 450px;
-}
-.banner .caption h2 {
-  margin-top: 0px;
-  margin-bottom: 15px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #1e1e1e;
-}
-.banner .caption .line-dec {
-  width: 30px;
-  height: 5px;
-  background-color: #3a8bcd;
-}
-.banner .caption p {
-  margin-top: 15px;
-  margin-bottom: 20px;
-}
-
-/* Featured Style */
-/* Footer Style */
-.footer {
-  text-align: center;
-}
-.footer ul {
-  padding: 0px;
-  margin: 0px;
-}
-.footer ul li {
-  list-style: none;
-  display: inline-block;
-}
-.footer .logo img {
-  max-width: 100%;
-  margin-top: 60px;
-  margin-bottom: 40px;
-}
-.footer .footer-menu {
-  margin-bottom: 40px;
-}
-.footer .footer-menu ul li {
-  margin: 0px 15px;
-}
-.footer .footer-menu a {
-  font-size: 13px;
-  color: #7a7a7a;
-  text-transform: uppercase;
-  transition: all 0.5s;
-}
-.footer .footer-menu a:hover {
-  color: #3a8bcd;
-  text-decoration: none;
-}
-.footer .social-icons {
-  margin-bottom: 60px;
-}
-.footer .social-icons ul li {
-  margin: 0px 10px;
-}
-.footer .social-icons a {
-  width: 32px;
-  height: 32px;
-  color: #fff;
-  background-color: #aaa;
-  text-align: center;
-  display: inline-block;
-  line-height: 33px;
-  border-radius: 50%;
-  font-size: 13px;
-  transition: all 0.5s;
-}
-.footer .social-icons a:hover {
-  background-color: #3a8bcd;
-}
 
 /* Sub Footer Style */
 .sub-footer {
@@ -308,71 +195,5 @@ a {
 
 /* Featured Page Style */
 /* Responsive Style */
-@media (max-width: 991px) {
 
-  .banner {
-    border-top: none;
-    margin-top: 0px;
-  }
-  .navbar .navbar-brand {
-    width: auto;
-  }
-  .navbar:after {
-    display: none;
-  }
-  #navbarResponsive {
-      z-index: 99999;
-      position: absolute;
-      top: 96px;
-      width: 100%;
-      text-align: center;
-      background-color: rgba(250,250,250,0.95);
-      box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
-  }
-  .navbar-dark .navbar-nav .nav-item {
-    border-bottom: 1px solid #eee;
-  }
-  .navbar-dark .navbar-nav .nav-item:last-child {
-    border-bottom: none;
-  }
-  .navbar-dark .navbar-nav .nav-link {
-    padding: 15px 0px;
-  }
-  .featured-page #filters {
-    text-align: right;
-  } 
-  .single-product .right-content {
-    margin-top: 30px;
-  }
-  .about-page .right-content {
-    margin-top: 30px;
-  }
-  .contact-page .right-content {
-    margin-top: 30px;
-  }
-  .contact-page .right-content .col-md-6,
-  .contact-page .right-content .col-md-12 {
-    padding: 0px;
-  }
-  .featured-page {
-    margin-top: 80px;
-  }
-  .about-page,
-  .contact-page {
-    margin-top: 0px;
-  }
-
-}
-
-@media (max-width: 767px) {
-
-  .subscribe-form .main-content form input.button {
-    margin-top: 20px;
-  }
-  .featured-page #filters {
-    margin-top: 15px;
-    text-align: left;
-  } 
-
-}
     </style>
