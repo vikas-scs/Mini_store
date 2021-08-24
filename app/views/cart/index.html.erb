@@ -1,7 +1,10 @@
 <br>
 <br>
-<% if @carts.empty? %>
+<% if @carts.products.empty? %>
     <center><b><h1>No Items In Cart</h1></b></center>
+    <div class="main-button">
+        <center><a href="/product/products">Order Now!</a></center>
+    </div>
 <% else %>
   <div class="featured-page">
       <div class="container">
@@ -15,42 +18,54 @@
         </div>
       </div>
     </div>
-    <% @total = 0 %>
-   <div class="container">
-          <div class="row">  
-            <% @carts.each do |cart| %>
-               <% cart.products.each do |product| %>
-               <div class="col-md-4 featured-item">
-                  <%= image_tag(url_for(product.image), :size => '200x100') %>
-                  <center>
-                  <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
-                  <h6><%= product.price %></h6>
-                  </center>
-                  <p>Quntity:</p>
-                  <%= form_tag(quantity_path, :method => "get") do %>
-                      <% @cps.each do |cp| %>
-                        <% if cp.product_id ==  product.id %>
-                           <%= number_field_tag "quantity", cp.quantity %>
-                        <% end %>
-                      <% end %>
-                       <%= hidden_field_tag "id", product.id %>
-                       <%= submit_tag "change",class: "btn btn-success" %><br>
-                       <%= link_to "remove", remove_product_path(id: product.id) %>
-                       <% @total = @total + (product.price * product.cart_count) %>
-                  <% end %>
-                  <% end %>
-              </div>
-           <% end %>
-         </div>
-  </div>
-  <div class="container">
+<div class="container">
+    <div class="row">  
+            <% @carts.products.each do |product| %>
+                <div class="col-md-4 featured-item">
+                    <%= image_tag(url_for(product.image), :size => '200x100') %>
+                    <center>
+                        <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
+                        <h7>$:<%= product.price %></h7>
+                    </center>
+                        <p>Quntity:</p>
+                            <% @cps.each do |cp| %>
+                                <% if cp.product_id ==  product.id %>
+                                    <%= number_field_tag "quantity", cp.quantity, :id=> "quantity#{product.id}" %>
+                                <% end %>
+                            <% end %>
+                            <%= hidden_field_tag "id", product.id, :id=> "product#{product.id}" %>
+                            <%= link_to "remove", remove_product_path(id: product.id) %>
+                        <script>
+                       $(document).ready(function(){
+                      console.log(6)
+                       $('#quantity<%=product.id%>').change(function(){
+                      console.log(7)
+                      $.ajax ({
+                          url: '<%= cart_path %>',
+                           data :{
+                               quantity: document.getElementById("quantity<%=product.id%>").value,
+                                product_id: document.getElementById("product<%=product.id%>").value
+                            },
+                           dataType: "script"
+                           });
+                       });
+
+                        });
+                     </script>
+                </div>
+                <% end %>
+    </div>
+</div>
+
+<div class="container">
     <center>
-        Total Amount: <b><%= @total %></b>
+     Total Amount
         <%= form_tag(address_path, :method => "get") do %>
-           <%= hidden_field_tag "total", @total %>
+          <%= render "cart" %>  
            <%= submit_tag "Place Order",class: "btn btn-danger" %><br>
         <% end %>
      </center>
-  </div>
+  </div> 
 <% end %>
+
 

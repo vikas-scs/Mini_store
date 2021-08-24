@@ -13,18 +13,15 @@
               <%= @address.pincode %><br>
               <h4><b>Amount To Pay</b></h4>
               <b><%= @total %></b><br>
-              <h1>Coupons Available </h1>
-                <% @coupons.each do |c| %>
-                    <%= c.coupon_name %> &nbsp&nbsp
-                <% end %><br>
-                <%= form_tag(coupon_path, :method => "get") do %>
+                <%= form_tag(apply_coupon_path, :method => "get") do %>
                     <%= hidden_field_tag "same_address", "yes"%>
                     <%= hidden_field_tag "total",@total %>
-                     Coupon:  <%= text_field_tag "c_name"%>
-                     <%= submit_tag "Apply",class: "btn btn-danger" %>
-                 <% end %>
+                    <%= hidden_field_tag "address_id",@address.id %>
+                     <%= submit_tag "Apply Coupon",class: "btn btn-danger" %>
+                 <% end %><br>
                  <%= form_tag(place_order_path, :method => "get") do %>
                      <%= hidden_field_tag "total",@total %>
+                     <%= hidden_field_tag "address_id",@address.id %>
                      <%= submit_tag "Place Order",class: "btn btn-success" %>
                  <% end %>
               </center>

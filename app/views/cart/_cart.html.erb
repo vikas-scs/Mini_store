@@ -1,0 +1,8 @@
+    <center>
+     <p id = "total"><b><%= @total %></b> </p>
+     <% if @final.present? %> 
+        <%= hidden_field_tag "final", @final %>
+     <% else %>
+        <%= hidden_field_tag "total", @total %>
+    <% end %>
+    </center>

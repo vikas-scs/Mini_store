@@ -1,5 +1,11 @@
+   <br>
     <br>
-    <br>
+   <% if @deposits.empty? %>
+       <center><b><h1>No Deposits Yet</h1></b></center>
+           <div class="main-button">
+        <center><a href="/wallet/new">Deposit Now!</a></center>
+    </div>
+    <% else %> 
     <div class="container">
    <div class="row">
             <div class="col featured-item">
@@ -25,6 +31,7 @@
           </div>
     </div>
 </div>
+<% end %>
   <style>
 .myTable { 
   width: 100%;

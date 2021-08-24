@@ -13,9 +13,12 @@ class User::RegistrationsController < Devise::RegistrationsController
  def create
    super
     @wallet = UserWallet.new(wallet_params)
+    @cart = Cart.new
+    @cart.user_id = resource.id
     @wallet.user_id = resource.id
     @wallet.balance = 0
     @wallet.save
+    @cart.save
   end
 
   # GET /resource/edit

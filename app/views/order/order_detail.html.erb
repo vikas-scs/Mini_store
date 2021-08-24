@@ -1,5 +1,38 @@
 <br>
 <br>
+<center><h1>Products</h1></center>
+   <div class="container">
+          <div class="row" style="border: 1px solid #eee;">
+            <% @order.products.each do |product| %>
+               <div class="col-md-4 featured-item">
+                  <%= image_tag(url_for(product.image), :size => '260x150') %>
+                  <center>
+                  <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
+                  <h6><%= product.price %></h6>
+                  <% @ops.each do |op| %>
+                        <% if op.product_id ==  product.id && op.order_id == @order.id %>
+                           Quantity:<b><%= op.quantity %></b>
+                        <% end %>
+                  <% end %>
+                  </center>
+               </div>
+            <% end %>
+         </div>
+    </div>
+<div class="container">
+   <div class="row">
+            <div class="col featured-item">
+              <center>
+                <h1>Delivery Address</h1>
+                 D_no:<%= @address.d_no%><br>
+                 street:<%= @address.street %><br>
+                 village:<%= @address.village %><br>
+                 state:<%= @address.state %><br>
+                pincode:<%= @address.pincode%><br>
+             </center>
+          </div>
+    </div>
+</div>
 <div class="container">
    <div class="row">
             <div class="col featured-item">
@@ -10,24 +43,31 @@
                        <th>Order Id</th>
                        <th>Date</th>
                        <th>Total amount</th>
+                       <th>Coupon</th>
                        <th>Coupon Benifit</th>
-                       <th>Final Amount</th>
+                       <th>Amount Paid</th>
                        <th>Delivery Date</th>
+                       <th>Status</th>
                     </tr>
                     <tr>
                          <td><%= @order.ref_id %></td>
                          <td><%= @order.created_at.strftime("%y-%m-%d") %></td>
                          <td><%= @order.final_amount + (@order.coupon_benifit rescue 0) %></td>
+                         <td><%= @coupon.coupon_name %></td>
                          <td><%= @order.coupon_benifit rescue 0%></td>
                          <td><%= @order.final_amount %></td>
                          <td><%= @order.delivery_date %></td>
+                         <% if @order.delivery_date < Date.today %> 
+                            <td>Delevered</td>
+                         <% else %>
+                            <td><%= @order.status %></td>
+                          <% end %>
                     </tr>
                  </table> 
               </center>
           </div>
     </div>
 </div>
-
 <div class="container">
    <div class="row">
             <div class="col featured-item">

@@ -1,0 +1,30 @@
+ <% if @addresses.empty? %>
+    <center><b><h1>No Address Found</h1></b>
+        <%= link_to "add Address", new_address_path %>
+     </center>
+<% else %>
+ <div class="banner">
+      <div class="container" >
+        <div class="row">
+          <div class="col-md-12">
+            <div class="caption">
+              <center>
+                 <%= link_to "Add Address", new_address_path %>
+                <h1>User Addresses </h1>
+                <% @addresses.each do |a| %>
+                <div class="container featured-item">
+                   D_no:<%= a.d_no%><br>
+                   street:<%= a.street %><br>
+                   village:<%= a.village %><br>
+                   state:<%= a.state %><br>
+                   pincode:<%= a.pincode%><br>
+                   <%= link_to "Edit", edit_address_path(id: a.id) %><br>
+                <% end %>
+                </div>
+            </center>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+<% end %>

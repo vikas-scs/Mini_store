@@ -1,0 +1,21 @@
+<div class="banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="caption">
+              <center>
+                <%= form_tag(change_address_path(id: @address.id), :method => "get") do %>
+                   D_no:<%= text_field_tag "d_no", @address.d_no%><br>
+                   street:<%= text_field_tag "street", @address.street %><br>
+                   village:<%= text_field_tag "village", @address.village %><br>
+                   state:<%= text_field_tag "state", @address.state %><br>
+                   pincode:<%= text_field_tag "pincode", @address.pincode%><br>
+                   <%= hidden_field_tag "id", @address.id%>
+                  <button id="search" onclick="send()" class = "btn btn-success"><% submit_tag("change") %>change</button>
+                <% end %>
+                </center>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

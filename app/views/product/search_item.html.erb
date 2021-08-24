@@ -27,7 +27,10 @@
         </div>
       </div>
     </div>
-
+   <% if @products.empty? %>
+       <center><b><h1>No Result Found</h1></b></center>
+    </div>
+    <% else %>
    <div class="container">
           <div class="row">
             <% @products.each do |product| %>
@@ -35,25 +38,20 @@
                   <%= image_tag(url_for(product.image), :size => '260x150') %>
                   <center>
                   <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
-                  <h6>$:<%= product.price %></h6>
+                   <h5><%= product.product_type %></h5>
+                  <% if product.available_count <= 0 %>
+                       <h6>Out Of Stock</h6>
+                       <h7>$:<%= product.price %></h7>
+                  <% else %>
+                       <h7>$:<%= product.price %></h7>
+                  <% end %>
                   </center>
             </div>
             <% end %>
           </div>
    </div>
-   <div class="sub-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="copyright-text">
-              <p>Copyright &copy; 2021 Mini Store 
-                
-                - Design: <a rel="nofollow" href="https://www.google.com/https://neilpatel.com/wp-content/uploads/2015/04/ecommerce.jpg">VIKAS</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<% end %>
+   
 <script>
   const show_btn = document.querySelector('#search');
   var wage = document.getElementById("name");

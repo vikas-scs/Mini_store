@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one :user_wallet
   has_many :deposits
-  has_many :carts
+  has_one :cart
   has_many :addresses
   has_many :orders
   has_many :transactions

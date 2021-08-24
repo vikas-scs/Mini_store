@@ -2,28 +2,29 @@
 <br>
 <% if @address.present? %>
 <div class="container" style="border-style: solid; border-color: coral;">
+  <center><h1>Select Address</h1></center>
           <div class="row">
-            <div class="col featured-item">
-                 <center>
-                   <h1>Address</h1>
-                
-                    <%= @address.d_no %><br>
-                    <%= @address.street %><br>
-                    <%= @address.village %><br>
-                    <%= @address.state %><br>
-                    <%= @address.pincode %><br>
+
+            <% @address.each do |address| %>
+            <div class="col-md-4 featured-item">
+                    <%= address.d_no %><br>
+                    <%= address.street %><br>
+                    <%= address.village %><br>
+                    <%= address.state %><br>
+                    <%= address.pincode %><br>
                     <%= form_tag(select_address_path, :method => "get") do %>
-                         <%= hidden_field_tag "same_address","yes" %>
-                         <%= hidden_field_tag "d_no",@address.d_no %>
-                         <%= hidden_field_tag "street",@address.street %>
-                         <%= hidden_field_tag "village",@address.village %>
-                         <%= hidden_field_tag "state",@address.state %>
-                         <%= hidden_field_tag "pincode",@address.pincode %>
+                         <%= hidden_field_tag "select_address","yes" %>
+                         <%= hidden_field_tag "d_no",address.d_no %>
+                         <%= hidden_field_tag "street",address.street %>
+                         <%= hidden_field_tag "village",address.village %>
+                         <%= hidden_field_tag "state",address.state %>
+                         <%= hidden_field_tag "pincode",address.pincode %>
                          <%= hidden_field_tag "total",@total %>
+                         <%= hidden_field_tag "id",address.id %>
                          <%= submit_tag "Continue with it",class: "btn btn-success" %>
                 <% end %>
-              </center>
               </div>
+              <% end %>
           </div>
   </div>       
 <% end %>

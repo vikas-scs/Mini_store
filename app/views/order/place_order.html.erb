@@ -5,24 +5,46 @@
     <center>
       <p>Applied Coupon:<%= @coupon.coupon_name %></p>
       <p>Coupon benifit : <%= @benifit %></p>
+      <%= form_tag(remove_coupon_path, :method => "get") do %>
+      <%= hidden_field_tag "total",@final_amount + @benifit %>
+      <%= hidden_field_tag "c_id",@coupon.id %>
+      <%= hidden_field_tag "address_id",@address.id %>
+      <%= submit_tag "Remove Coupon",class: "btn btn-danger" %>
+    <% end %>&nbsp&nbsp
+    <%= form_tag(apply_coupon_path, :method => "get") do %>
+                      <%= hidden_field_tag "total",@final_amount %>
+                      <%= hidden_field_tag "address_id",@address.id %>
+                      <%= hidden_field_tag "change_coupon",@address.id %>
+                      <%= hidden_field_tag "coupon_id",@coupon.id %>
+                      <%= submit_tag "change Coupon",class: "btn btn-info" %>
+    <% end %>
+
     </center>
   </div>
 <% end %>
  <div class="container" style="border-style: solid; border-color: red;">
       <center>
         <h1>Final Amount To Pay</h1>
-        <h4><b><%= @final_amount %></b></h4>
+        <h4><b><%= @final_amount1 %></b></h4>
       </center>
   </div>
   <div>
     <center>
+      <%= form_tag(apply_coupon_path, :method => "get") do %>
+                    <% if !@coupon.present? %>
+                      <%= hidden_field_tag "total",@final_amount %>
+                      <%= hidden_field_tag "address_id",@address.id %>
+                       <%= submit_tag "apply Coupon",class: "btn btn-danger" %>
+                     <% end %>
+    <% end %><br>
     <%= form_tag(confirm_path, :method => "get") do %>
       <%= hidden_field_tag "total",@final_amount %>
       <% if @coupon.present? %>
           <%= hidden_field_tag "c_id",@coupon.id %>
           <%= hidden_field_tag "benifit",@benifit %>
       <% end %>
-      <%= submit_tag "Confirm Order",class: "btn btn-danger" %>
+      <%= hidden_field_tag "address_id",@address.id %>
+      <%= submit_tag "Confirm Order",class: "btn btn-success" %>
     <% end %>
     </center>
   </div>

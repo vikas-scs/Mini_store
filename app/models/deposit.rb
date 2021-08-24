@@ -17,7 +17,7 @@ class Deposit < ApplicationRecord
     	@wallet = UserWallet.find(deposit.user_id)
 		   if deposit.status == "accepted"
 		   	   @transaction = Transaction.new
-    	       @transaction.ref_id =  "Trans" + rand(7 ** 7).to_s
+    	       @transaction.ref_id =  "TRAN" + rand(7 ** 7).to_s
     	       @transaction.transaction_type = "credit"
     	       @transaction.user_id = deposit.user_id
     	       @transaction.admin_id = deposit.admin_id

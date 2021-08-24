@@ -2,6 +2,9 @@
 <br>
 <% if @orders.empty? %>
     <center><b><h1>No Orders Yet</h1></b></center>
+    <div class="main-button">
+        <center><a href="/product/products">Order Now!</a></center>
+    </div>
 <% else %>
 <div class="featured-page">
       <div class="container">
@@ -16,30 +19,27 @@
       </div>
     </div>
 <% @orders.each do |order| %>
-       <div class="container">
-          <div class="row" style="border: 1px solid #eee;">
-            <% order.products.each do |product| %>
-               <div class="col-md-4 featured-item">
-                  <%= image_tag(url_for(product.image), :size => '260x150') %>
-                  <center>
-                  <h4><%= link_to product.name, show_product_path(id: product.id) %></h4>
-                  <h6><%= product.price %></h6>
-                  <% @ops.each do |op| %>
-                        <% if op.product_id ==  product.id && op.order_id == order.id %>
-                           Quantity:<b><%= op.quantity %></b>
-                        <% end %>
-                  <% end %>
-                  </center>
-               </div>
-            <% end %>
-         </div>
+       <div class="container featured-item">
+            <center>
+            Order Id:<%= order.ref_id %><br>
+            Order Status: <% if order.delivery_date < Date.today %><h7>Delivered</h7><% elsif order.status == "cancelled" %><h6>Cancelled</h6><% elsif order.status == "processing" %><h4>Processing</h4><% end %> 
+            </center>    
          <center>
+          <% if order.status != "cancelled" %>
             <p><b>Amount: <%= order.final_amount %></b></p>
             <p><b>Coupon benifit: <%= order.coupon_benifit %></b></p>
             <p><b>Estimated Delivery: <%= order.delivery_date %></b></p>
+          <% end %>
             <%= form_tag(order_detail_path, :method => "get") do %>
                 <%= hidden_field_tag "order_id",order.id %>
-                <%= submit_tag "Order Details",class: "btn btn-danger" %>
+                <%= submit_tag "Order Details",class: "btn btn-success" %>
+            <% end %><br>
+            <% @date = order.delivery_date - Date.today %>
+            <% if @date > 3 && order.status != "cancelled" %>
+                <%= form_tag(cancel_order_path, :method => "get") do %>
+                   <%= hidden_field_tag "order_id",order.id %>
+                   <%= submit_tag "Cancel Order",class: "btn btn-danger" %>
+                <% end %>
             <% end %>
          </center> 
       </div>

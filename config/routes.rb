@@ -24,5 +24,14 @@ Rails.application.routes.draw do
   get "order/order_detail", to:"order#order_detail", as: :order_detail
   get "order/my_deposits", to:"order#my_deposits", as: :deposit
   get 'wallet/transactions/:id', to: 'wallet#transactions', as: :transaction
+  get 'wallet/address_edit/:id', to: 'wallet#address_edit', as: :address_edit
+  get 'wallet/change_address/:id', to: 'wallet#change_address', as: :change_address
+  get "cart/new_address", to:"cart#new_address", as: :new_address
+  get "cart/edit_address", to:"cart#edit_address", as: :edit_address
+  get "product/remove_address", to:"product#remove_address", as: :remove_address
+  get "order/apply_coupon", to:"order#apply_coupon", as: :apply_coupon
+  get "cart/set_quantity", to:"cart#set_quantity", as: :set_quantity
+  get "order/remove_coupon", to:"order#remove_coupon", as: :remove_coupon
+  get "order/cancel_order", to:"order#cancel_order", as: :cancel_order
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

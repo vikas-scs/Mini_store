@@ -1,0 +1,57 @@
+<br>
+<br>
+<div class="container">
+   <div class="row">
+       <div class="col">
+       	<center>
+   		Total Amount: <b><%= @total %></b>
+   		
+   	    </center>
+   	    </div>
+    </div>
+</div>
+<div class="container">
+   <div class="row">
+            <div class="col">
+            	<center>
+            <%= form_tag(coupon_path, :method => "get") do %>
+                    <%= hidden_field_tag "total",@total %>
+                    <%= hidden_field_tag "address_id",@address.id %>
+                     Coupon:<%= text_field_tag "c_name","",:id=> "coupon_name" %>
+                     <%= submit_tag "Apply",class: "btn btn-danger" %>
+                 <% end %>
+                 </center>
+            </div>
+    </div>
+</div><br>
+<div class="container">
+	<h1><center>Coupons Available</center></h1>
+   <div class="row">
+            <div class="col featured-items">
+            	<% @coupons.each do |coupon| %>
+            	   <center><b><%= coupon.coupon_name %></b>:
+            	   <% if coupon.amount.present? && coupon.percentage.present? %>
+            	      get <%= coupon.percentage %>% off upto <%= coupon.amount %> rupess
+            	   <% elsif !coupon.amount.present? %>
+            	      get <%= coupon.percentage %>% off on total amount
+            	   <% elsif !coupon.percentage.present? %>
+            	      get <%= coupon.amount %> off on total amount
+            	   <% end %>
+            	   <button type="button" class="btn btn-success" id = "coupon<%= coupon.id %>" value="<%= coupon.coupon_name %>">Apply</button><br><br>
+                   
+            	   </center>
+            	   <script>
+                       $(document).ready(function(){
+                       	var name = document.getElementById("coupon<%= coupon.id %>").value
+                      console.log(6)
+                       $('#coupon<%= coupon.id %>').click(function(){
+                        console.log(7)
+                           document.getElementById("coupon_name").value = name;
+                        });
+                   });
+                     </script>
+            	<% end %>
+            	
+           </div>
+    </div>
+</div>

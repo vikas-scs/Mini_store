@@ -21,8 +21,9 @@
                   <h5><%= product.product_type %></h5>
                   <% if product.available_count <= 0 %>
                        <h6>Out Of Stock</h6>
+                       <h7>$:<%= product.price %></h7>
                   <% else %>
-                       <h6>$:<%= product.price %></h6>
+                       <h7>$:<%= product.price %></h7>
                   <% end %>
                   </center>
             </div>

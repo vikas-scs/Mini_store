@@ -11,8 +11,10 @@
                   <h7><b><%= @product.features %></b></h7>
                   <% if @product.available_count <= 0 %>
                        <h6>Out Of Stock</h6>
+                        <h6>$:<%= @product.price %></h6>
                   <% else %>
                        <h6>$:<%= @product.price %></h6>
+                       <h7>Available Stock:<b><%= @product.available_count %></b></h7>
                   <br><br>
                   <%= form_tag(add_cart_path, :method => "get") do %>
                   Quantity:<%= number_field_tag "quantity", 1 %>
